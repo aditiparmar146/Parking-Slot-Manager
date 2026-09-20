@@ -2,35 +2,15 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Create parking manager
         ParkingManager manager = new ParkingManager();
 
-        // Create parking slots
-        ParkingSlot slot1 = new ParkingSlot(1, "A01", "Car");
-        ParkingSlot slot2 = new ParkingSlot(2, "A02", "Car");
-        ParkingSlot slot3 = new ParkingSlot(3, "B01", "Bike");
+        // =========================
+        // CREATE
+        // =========================
 
-        // Add slots to parking system
-        manager.addParkingSlot(slot1);
-        manager.addParkingSlot(slot2);
-        manager.addParkingSlot(slot3);
-
-        // Create vehicles
         Vehicle car = new Vehicle(
                 1,
                 "KA01AB1234",
-                "Car"
-        );
-
-        Vehicle car2 = new Vehicle(
-                3,
-                "KA03CD9999",
-                "Car"
-        );
-
-        Vehicle car3 = new Vehicle(
-                4,
-                "KA04EF8888",
                 "Car"
         );
 
@@ -40,23 +20,76 @@ public class Main {
                 "Bike"
         );
 
-        // Park vehicles
-        System.out.println("--- Parking Vehicles ---");
+        manager.addVehicle(car);
+        manager.addVehicle(bike);
+
+        ParkingSlot slot1 = new ParkingSlot(
+                1,
+                "A01",
+                "Car"
+        );
+
+        ParkingSlot slot2 = new ParkingSlot(
+                2,
+                "A02",
+                "Car"
+        );
+
+        ParkingSlot slot3 = new ParkingSlot(
+                3,
+                "B01",
+                "Bike"
+        );
+
+        manager.addParkingSlot(slot1);
+        manager.addParkingSlot(slot2);
+        manager.addParkingSlot(slot3);
+
+        // =========================
+        // READ
+        // =========================
+
+        manager.displayVehicles();
+
+        manager.displayParkingSlots();
+
+        // =========================
+        // PARK VEHICLES
+        // =========================
+
+        System.out.println("\n--- Parking Vehicles ---");
 
         manager.parkVehicle(car);
-        manager.parkVehicle(car2);
-        manager.parkVehicle(car3);
         manager.parkVehicle(bike);
 
-        // Display parked vehicles
-        manager.displayParkedVehicles();
+        // =========================
+        // UPDATE
+        // =========================
 
-        // Remove car
-        System.out.println("--- Vehicle Exit ---");
+        System.out.println("\n--- Updating Vehicle ---");
 
-        manager.removeVehicle("KA01AB1234");
+        manager.updateVehicle(
+                1,
+                "KA01ZZ9999",
+                "Car"
+        );
 
-        // Display again
+        manager.displayVehicles();
+
+        // =========================
+        // DELETE
+        // =========================
+
+        System.out.println("\n--- Deleting Vehicle ---");
+
+        manager.deleteVehicle(2);
+
+        manager.displayVehicles();
+
+        // =========================
+        // PARKED VEHICLES
+        // =========================
+
         manager.displayParkedVehicles();
     }
 }
