@@ -8,7 +8,20 @@ public class VehicleDAO {
 
     // CREATE
     public void addVehicle(Vehicle vehicle) {
+         if (!Validation.isValidVehicleNumber(vehicle.getVehicleNumber())) {
+        System.out.println("Invalid vehicle number.");
+        return;
+    }
 
+    if (!Validation.isValidVehicleType(vehicle.getVehicleType())) {
+        System.out.println("Invalid vehicle type.");
+        return;
+    }
+
+    if (getVehicleByNumber(vehicle.getVehicleNumber()) != null) {
+    System.out.println("Vehicle already exists.");
+    return;
+    }
         String sql = """
                 INSERT INTO vehicles
                 (vehicle_id, vehicle_number, vehicle_type)
@@ -107,4 +120,31 @@ public class VehicleDAO {
             e.printStackTrace();
         }
     }
+    public Vehicle getVehicleByNumber(String vehicleNumber) {
+
+    String sql = "SELECT * FROM vehicles WHERE vehicle_number = ?";
+
+    try (Connection connection = DatabaseConnection.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+
+        statement.setString(1, vehicleNumber);
+
+        try (ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return new Vehicle(
+                        resultSet.getInt("vehicle_id"),
+                        resultSet.getString("vehicle_number"),
+                        resultSet.getString("vehicle_type")
+                );
+            }
+        }
+
+    } catch (Exception e) {
+        System.out.println("Error checking vehicle.");
+        e.printStackTrace();
+    }
+
+    return null;
+}
 }
